@@ -1,5 +1,7 @@
 # RectorMe
 
+![](https://github.com/webad012/vscrectorme/blob/main/src/test/demo.gif)
+
 * right click on file od directory in workspace and choose "Rector Me"
 * wait to generate
 
