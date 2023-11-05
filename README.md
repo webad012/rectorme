@@ -10,9 +10,9 @@
 * Ubuntu 20.04
 * Rector (https://github.com/rectorphp/rector)
 
-## BUILDING
+## BUILDING (using Docker)
 
-* vsce package
+* bash build.sh
 
 ## Instalation
 

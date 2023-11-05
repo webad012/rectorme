@@ -4,6 +4,10 @@
   "displayName": "Rector Me",
   "description": "Rector Me",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/webad012/vscrectorme.git"
+  },
   "engines": {
     "vscode": "^1.83.1"
   },
