@@ -30,6 +30,24 @@ export function activate(context: vscode.ExtensionContext) {
 		let generatingStatusMessage = vscode.window.setStatusBarMessage('RectorMe running');
 
 		require('child_process').exec(rectorCommand, (err: String, stdout: string, stderr: string) => {
+			generatingStatusMessage.dispose();
+			generatingStatusMessage = vscode.window.setStatusBarMessage('RectorMe completed');
+
+			/// rector has no complains/suggestions
+			if(
+				err === null
+				&& stdout === ''
+				&& (
+					stderr === ''
+					||
+					stderr.endsWith('100%')
+				)
+			)
+			{
+				vscode.window.showInformationMessage('No complains/suggestions for '+rectoredPathName);
+				return;
+			}
+
 			if(typeof err === 'object')
 			{
 				err = new String(err);
@@ -46,9 +64,6 @@ export function activate(context: vscode.ExtensionContext) {
 				vscode.window.showErrorMessage('RectorMe error: ' + err);
 				return;
 			}
-
-			generatingStatusMessage.dispose();
-			generatingStatusMessage = vscode.window.setStatusBarMessage('RectorMe completed');
 
 			var tempPathUri = vscode.Uri.parse("file://" + tempFilePath);
 			vscode.window.showTextDocument(tempPathUri);

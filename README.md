@@ -16,4 +16,4 @@
 
 ## Instalation
 
-* code --install-extension rectorme-*.vsix
+* code --install-extension releases/rectorme-*.vsix
