@@ -1,5 +1,12 @@
 import * as vscode from 'vscode';
 
+const greenDecorationType = vscode.window.createTextEditorDecorationType({
+	color: "#495c2d"
+});
+const redDecorationType = vscode.window.createTextEditorDecorationType({
+	color: "#bc0004"
+});
+
 export function activate(context: vscode.ExtensionContext) {
 	let disposable = vscode.commands.registerCommand('rectorme.rectorme', (params) => {
 
@@ -19,7 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
 			rectoredPathName = rectoredPathNameParts[rectoredPathNameParts.length - 1];
 		}
 
-		const cpTempStdout = require('child_process').execSync('mktemp -p /tmp RectorMe-'+rectoredPathName+'-XXX');
+		const cpTempStdout = require('child_process').execSync('mktemp -p /tmp '+rectoredPathName+'-XXXXXXX --suffix .RectorMe');
 		const tempFilePath = cpTempStdout.toString().trim();
 
 		const rectorCommand = rectorPath+"/vendor/bin/rector process "
@@ -66,12 +73,43 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 
 			var tempPathUri = vscode.Uri.parse("file://" + tempFilePath);
-			vscode.window.showTextDocument(tempPathUri);
+			vscode.window.showTextDocument(tempPathUri).then((editor) => {
+				decorateEditor(editor);
+			});
 		});
 	});
-
 	context.subscriptions.push(disposable);
 }
+
+function decorateEditor(editor: vscode.TextEditor) {
+	let sourceCode = editor.document.getText();
+  
+	let greenDecorationsArray: vscode.DecorationOptions[] = [];
+	let redDecorationsArray: vscode.DecorationOptions[] = [];
+  
+	const sourceCodeArr = sourceCode.split("\n");
+  
+	for (let lineIndex = 0; lineIndex < sourceCodeArr.length; lineIndex++) {
+		const line = sourceCodeArr[lineIndex];
+
+		if(line.startsWith('+')) {
+			let range = new vscode.Range(
+				new vscode.Position(lineIndex, 0),
+				new vscode.Position(lineIndex, line.length)
+			);
+			greenDecorationsArray.push({ range });
+		} else if (line.startsWith('-')) {
+			let range = new vscode.Range(
+				new vscode.Position(lineIndex, 0),
+				new vscode.Position(lineIndex, line.length)
+			);
+			redDecorationsArray.push({ range });
+		}
+	}
+  
+	editor.setDecorations(greenDecorationType, greenDecorationsArray);
+	editor.setDecorations(redDecorationType, redDecorationsArray);
+  }
 
 // This method is called when your extension is deactivated
 export function deactivate() {}
