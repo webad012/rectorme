@@ -73,9 +73,19 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 
 			var tempPathUri = vscode.Uri.parse("file://" + tempFilePath);
-			vscode.window.showTextDocument(tempPathUri).then((editor) => {
-				decorateEditor(editor);
-			});
+			vscode.window.showTextDocument(tempPathUri);
+		});
+
+		vscode.window.onDidChangeActiveTextEditor(editor => {
+			if(editor === undefined)
+			{
+				return;
+			}
+			if(!editor.document.fileName.endsWith('.RectorMe'))
+			{
+				return;
+			}
+			decorateEditor(editor);
 		});
 	});
 	context.subscriptions.push(disposable);
