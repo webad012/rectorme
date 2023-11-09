@@ -7,7 +7,7 @@
 
 ### Requirements
 
-* Ubuntu 20.04
+* VSCode (https://code.visualstudio.com/)
 * Rector (https://github.com/rectorphp/rector)
 
 ## BUILDING (using Docker)
@@ -17,3 +17,7 @@
 ## Instalation
 
 * code --install-extension releases/rectorme-*.vsix
+
+## Testing
+
+* TODO
