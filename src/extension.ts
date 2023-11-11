@@ -93,7 +93,14 @@ export function activate(context: vscode.ExtensionContext) {
 
 function decorateEditor(editor: vscode.TextEditor) {
 	let sourceCode = editor.document.getText();
+
+	const [greenDecorationsArray, redDecorationsArray] = generateDecorations(sourceCode);
   
+	editor.setDecorations(greenDecorationType, greenDecorationsArray);
+	editor.setDecorations(redDecorationType, redDecorationsArray);
+}
+
+export function generateDecorations(sourceCode: string): vscode.DecorationOptions[][] {
 	let greenDecorationsArray: vscode.DecorationOptions[] = [];
 	let redDecorationsArray: vscode.DecorationOptions[] = [];
   
@@ -117,9 +124,8 @@ function decorateEditor(editor: vscode.TextEditor) {
 		}
 	}
   
-	editor.setDecorations(greenDecorationType, greenDecorationsArray);
-	editor.setDecorations(redDecorationType, redDecorationsArray);
-  }
+	return [greenDecorationsArray, redDecorationsArray];
+}
 
 // This method is called when your extension is deactivated
 export function deactivate() {}

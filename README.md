@@ -20,4 +20,5 @@
 
 ## Testing
 
-* TODO
+* Open the debug viewlet (`Ctrl+Shift+D`) and from the launch configuration dropdown pick `Extension Tests`.
+* Press `F5` to run the tests in a new window with your extension loaded.
